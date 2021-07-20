@@ -3,6 +3,7 @@ package it.antoniofittipaldi.poimanager.controller;
 import java.util.ArrayList;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -17,18 +18,28 @@ public class ApplicationController {
 	}
 	
 	@RequestMapping("/mappa")
-	@ResponseBody
-	public POI mappa() {
-		POI punto = new POI(
+	public String mappa(Model modello) {
+		POI punto1 = new POI(
 				1,
-				"Teatro",
-				10.000,
-				20.000,
-				"Teatro di origine settecentesca",
+				"Tavole Palatine",
+				40.4160721,
+				16.8145609,
+				"Antichi resti di un tempo greco",
 				new ArrayList()
 				);
-		return punto;
-		// return "mappa";
+		POI punto2 = new POI(
+				2,
+				"Sassi di Matera",
+				40.6645789,
+				16.6115742,
+				"Centro storico della città di Matera",
+				new ArrayList()
+				);
+		ArrayList<POI> punti = new ArrayList<POI>();
+		punti.add(punto1);
+		punti.add(punto2);
+		modello.addAttribute("elencopoi", punti);
+		return "mappa";
 	}
 	
 	@RequestMapping("/login")
