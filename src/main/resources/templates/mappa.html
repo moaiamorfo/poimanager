@@ -102,7 +102,31 @@
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
-	
+		
+	<script th:inline="javascript">
+	function creaMappa() {
+		  var perimetro = new google.maps.LatLngBounds();
+		  const map = new google.maps.Map(document.getElementById("mappa"), {
+		    zoom: 4,
+		    // 
+		  });
+		  
+		  [# th:each="punto : ${elencopoi}"]
+		    var marker[(${puntoStat.index})] = new google.maps.Marker({
+		    	position: {lat: [(${punto.getLatitudine()})], lng: [(${punto.getLongitudine()})]},
+		    	map,
+		    	title: "[(${punto.getNome()})]"
+		    });
+		    marker[(${puntoStat.index})].addListener("click", function(){
+		    	window.location.href = "poi/" + [(${punto.getId()})];
+		    });
+		    perimetro.extend({lat: [(${punto.getLatitudine()})], lng: [(${punto.getLongitudine()})]});
+		  [/]
+
+		  map.fitBounds(perimetro);
+		}
+	</script>
+		
 	<script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiO5RojhpsNaTgjVWOC_ht9GAjCCiBapY&callback=creaMappa&libraries=&v=weekly"
       async
