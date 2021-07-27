@@ -1,21 +1,29 @@
 package it.antoniofittipaldi.poimanager.model;
 
-import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "elencopoi")
 public class POI {
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String nome;
 	private double latitudine;
 	private double longitudine;
 	private String descrizione;
-	private ArrayList immagini;
-	
+	private String immagini;
+
 	public POI() {
-		
+
 	}
 
-	public POI(long id, String nome, double latitudine, double longitudine, String descrizione, ArrayList immagini) {
+	public POI(long id, String nome, double latitudine, double longitudine, String descrizione, String immagini) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -65,12 +73,12 @@ public class POI {
 		this.descrizione = descrizione;
 	}
 
-	public ArrayList getImmagini() {
+	public String getImmagini() {
 		return immagini;
 	}
 
-	public void setImmagini(ArrayList immagini) {
+	public void setImmagini(String immagini) {
 		this.immagini = immagini;
 	}
-	
+
 }

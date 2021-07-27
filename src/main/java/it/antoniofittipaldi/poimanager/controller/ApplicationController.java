@@ -1,47 +1,58 @@
 package it.antoniofittipaldi.poimanager.controller;
 
-import java.util.ArrayList;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import it.antoniofittipaldi.poimanager.model.POI;
+import it.antoniofittipaldi.poimanager.service.ServizioPOI;
 
 @Controller
 public class ApplicationController {
-	
+
+	@Autowired
+	ServizioPOI servizioPOI;
+
 	@RequestMapping("/")
 	public String home() {
 		return "index";
 	}
-	
+
+	@RequestMapping("/nuovopoi")
+	public String nuovopoi(Model modello) {
+		POI nuovopoi = new POI();
+		modello.addAttribute("poi", nuovopoi);
+		return "nuovopoi";
+	}
+
+	@RequestMapping(path = "/inserimentoPoi", method = RequestMethod.POST)
+	public String inserimentoPoi(POI poi) {
+		servizioPOI.inserisciNelDb(poi);
+		return "redirect:/confermainserimento";
+	}
+
+	@RequestMapping("/confermainserimento")
+	public String confermainserimento() {
+		return "confermainserimento";
+	}
+
 	@RequestMapping("/mappa")
 	public String mappa(Model modello) {
-		POI punto1 = new POI(
-				1,
-				"Tavole Palatine",
-				40.4160721,
-				16.8145609,
-				"Antichi resti di un tempo greco",
-				new ArrayList()
-				);
-		POI punto2 = new POI(
-				2,
-				"Sassi di Matera",
-				40.6645789,
-				16.6115742,
-				"Centro storico della città di Matera",
-				new ArrayList()
-				);
-		ArrayList<POI> punti = new ArrayList<POI>();
-		punti.add(punto1);
-		punti.add(punto2);
+		Iterable<POI> punti = servizioPOI.leggiDb();
 		modello.addAttribute("elencopoi", punti);
 		return "mappa";
 	}
-	
+
+	@RequestMapping("/poi/{id}")
+	public String dettaglioPoi(Model modello, @PathVariable("id") Long id) {
+		POI poi = servizioPOI.leggiSingoloPoiTramiteIdDb(id);
+		modello.addAttribute("poi", poi);
+		return "poi";
+	}
+
 	@RequestMapping("/login")
 	public String login() {
 		return "login";
