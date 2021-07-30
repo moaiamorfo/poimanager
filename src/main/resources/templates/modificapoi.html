@@ -7,7 +7,7 @@
 <meta name="author"
 	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Hugo 0.84.0">
-<title>POI Manager - scheda POI</title>
+<title>POI Manager - modifica POI</title>
 
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/5.0/examples/headers/">
@@ -92,59 +92,50 @@
 			</header>
 		</div>
 
-		<div class="container" id="layoutpoi">
+		<div class="container">
 
-			<div class="row g-0">
-				<div class="col box" id="boxtitolo"
-					th:style="'background-image:url(' + ${poi.getImmagini().split(',')[0]} + ')'">
-					<h1 th:text="${poi.getNome()}">Titolo</h1>
+			<h1>Modifica POI</h1>
+
+			<form class="needs-validation" th:action="@{/aggiornamentoPoi}"
+				th:object="${poi}" method="post">
+				<div class="mb-3">
+					<label for="nome" class="form-label">Nome</label> <input
+						th:field="*{nome}" type="text" class="form-control" id="nome"
+						aria-describedby="nomeHelp" required>
+					<div id="nomeHelp" class="form-text">Il nome del POI.</div>
 				</div>
-				<div class="col box" id="boxdescrizione"
-					th:text="${poi.getDescrizione()}">Descrizione</div>
-			</div>
-
-			<div class="row g-0">
-				<div class="col box">
-
-					<div id="mappasingolopoi"></div>
-
+				<div class="mb-3">
+					<label for="latitudine" class="form-label">Latitudine</label> <input
+						th:field="*{latitudine}" type="text" class="form-control"
+						id="latitidune" aria-describedby="latitudineHelp" required>
+					<div id="latitudineHelp" class="form-text">La latitudine del
+						POI (nel formato 12.3456).</div>
 				</div>
-				<div class="col box" id="boxcarousel">
-
-					<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-						<div class="carousel-inner">
-							<div
-								th:class="${immagineStat.index == 0 ? 'carousel-item active' : 'carousel-item'}"
-								th:each="immagine : ${poi.getImmagini().split(',')}">
-								<img th:src="${immagine}" src="..." class="d-block w-100"
-									alt="...">
-							</div>
-						</div>
-						<button class="carousel-control-prev" type="button"
-							data-bs-target="#myCarousel" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button"
-							data-bs-target="#myCarousel" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
-					</div>
-
+				<div class="mb-3">
+					<label for="longitudine" class="form-label">Longitudine</label> <input
+						th:field="*{longitudine}" type="text" class="form-control"
+						id="longitudine" aria-describedby="longitudineHelp" required>
+					<div id="longitudineHelp" class="form-text">La longitudine
+						del POI (nel formato 12.3456).</div>
 				</div>
-			</div>
+				<div class="mb-3">
+					<label for="descrizione" class="form-label">Descrizione</label>
+					<textarea th:field="*{descrizione}" class="form-control"
+						id="descrizione" rows="3" aria-describedby="descrizioneHelp"
+						required></textarea>
+					<div id="descrizioneHelp" class="form-text">La descrizione
+						del POI.</div>
+				</div>
+				<div class="mb-3">
+					<label for="immagini" class="form-label">Immagini</label>
+					<textarea th:field="*{immagini}" class="form-control" id="immagini"
+						rows="3" aria-describedby="immaginiHelp"></textarea>
+					<div id="immaginiHelp" class="form-text">Le immagini del POI.</div>
+				</div>
+				<button type="submit" class="btn btn-primary">Modifica POI</button>
 
-			<div id="pulsantiera">
-
-				<a class="btn btn-primary" href="/mappa" role="button">Torna
-					alla mappa</a> <a class="btn btn-warning"
-					th:href="${'/modificapoi/' + poi.getId()}" href="/modificapoi"
-					role="button">Modifica il POI</a>
-				<button type="button" class="btn btn-danger" data-bs-toggle="modal"
-					data-bs-target="#confermaEliminazionePoi">Elimina POI</button>
-
-			</div>
+				<input type="hidden" id="id" th:field="*{id}">
+			</form>
 
 		</div>
 
@@ -158,50 +149,7 @@
 
 
 	<script src="../js/bootstrap.bundle.min.js"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script type="text/javascript" src="../js/script.js"></script>
-
-	<script th:inline="javascript">
-	function creaMappa() {
-		  const map = new google.maps.Map(document.getElementById("mappasingolopoi"), {
-		    zoom: 10,
-		    center: {lat: [(${poi.getLatitudine()})], lng: [(${poi.getLongitudine()})]}
-		  });
-		  
-		    var marker = new google.maps.Marker({
-		    	position: {lat: [(${poi.getLatitudine()})], lng: [(${poi.getLongitudine()})]},
-		    	map,
-		    	title: "[(${poi.getNome()})]"
-		    });
-
-		}
-	</script>
-
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiO5RojhpsNaTgjVWOC_ht9GAjCCiBapY&callback=creaMappa&libraries=&v=weekly"
-		async></script>
-
-	<div class="modal" tabindex="-1" id="confermaEliminazionePoi">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Eliminazione POI</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<p>Si è sicuri di voler eliminare il POI?</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">No</button>
-					<a class="btn btn-danger" th:href="${'/eliminapoi/' + poi.getId()}"
-						href="/eliminapoi" role="button">Sì</a>
-				</div>
-			</div>
-		</div>
-	</div>
 
 </body>
 </html>

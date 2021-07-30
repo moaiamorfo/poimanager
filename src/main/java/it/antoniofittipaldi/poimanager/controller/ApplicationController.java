@@ -34,9 +34,20 @@ public class ApplicationController {
 		return "redirect:/confermainserimento";
 	}
 
+	@RequestMapping(path = "/aggiornamentoPoi", method = RequestMethod.POST)
+	public String aggiornamentoPoi(POI poi) {
+		servizioPOI.aggiornaNelDb(poi, poi.getId());
+		return "redirect:/confermaaggiornamento";
+	}
+
 	@RequestMapping("/confermainserimento")
 	public String confermainserimento() {
 		return "confermainserimento";
+	}
+
+	@RequestMapping("/confermaaggiornamento")
+	public String confermaaggiornamento() {
+		return "confermaaggiornamento";
 	}
 
 	@RequestMapping("/mappa")
@@ -51,6 +62,13 @@ public class ApplicationController {
 		POI poi = servizioPOI.leggiSingoloPoiTramiteIdDb(id);
 		modello.addAttribute("poi", poi);
 		return "poi";
+	}
+
+	@RequestMapping("/modificapoi/{id}")
+	public String modificaPoi(Model modello, @PathVariable("id") Long id) {
+		POI poi = servizioPOI.leggiSingoloPoiTramiteIdDb(id);
+		modello.addAttribute("poi", poi);
+		return "modificapoi";
 	}
 
 	@RequestMapping("/login")

@@ -7,7 +7,7 @@
 <meta name="author"
 	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Hugo 0.84.0">
-<title>POI Manager - scheda POI</title>
+<title>POI Manager - conferma aggiornamento POI</title>
 
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/5.0/examples/headers/">
@@ -15,7 +15,7 @@
 
 
 <!-- Bootstrap core CSS -->
-<link href="../css/bootstrap.min.css" rel="stylesheet">
+<link href="css/bootstrap.min.css" rel="stylesheet">
 
 <style>
 .bd-placeholder-img {
@@ -35,8 +35,8 @@
 
 
 <!-- Custom styles for this template -->
-<link href="../css/headers.css" rel="stylesheet">
-<link href="../css/style.css" rel="stylesheet">
+<link href="css/headers.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
 </head>
 <body class="h-100 d-flex flex-column">
 
@@ -79,7 +79,7 @@
 				class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
 				<a href="/"
 					class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-					<img class="d-block mx-auto me-2" src="../img/map.png" alt=""
+					<img class="d-block mx-auto me-2" src="img/map.png" alt=""
 					width="32" height="32"> <span class="fs-4">POI Manager</span>
 				</a>
 
@@ -92,59 +92,12 @@
 			</header>
 		</div>
 
-		<div class="container" id="layoutpoi">
+		<div class="container">
 
-			<div class="row g-0">
-				<div class="col box" id="boxtitolo"
-					th:style="'background-image:url(' + ${poi.getImmagini().split(',')[0]} + ')'">
-					<h1 th:text="${poi.getNome()}">Titolo</h1>
-				</div>
-				<div class="col box" id="boxdescrizione"
-					th:text="${poi.getDescrizione()}">Descrizione</div>
-			</div>
+			<h1>Aggiornamento POI</h1>
 
-			<div class="row g-0">
-				<div class="col box">
-
-					<div id="mappasingolopoi"></div>
-
-				</div>
-				<div class="col box" id="boxcarousel">
-
-					<div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
-						<div class="carousel-inner">
-							<div
-								th:class="${immagineStat.index == 0 ? 'carousel-item active' : 'carousel-item'}"
-								th:each="immagine : ${poi.getImmagini().split(',')}">
-								<img th:src="${immagine}" src="..." class="d-block w-100"
-									alt="...">
-							</div>
-						</div>
-						<button class="carousel-control-prev" type="button"
-							data-bs-target="#myCarousel" data-bs-slide="prev">
-							<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Previous</span>
-						</button>
-						<button class="carousel-control-next" type="button"
-							data-bs-target="#myCarousel" data-bs-slide="next">
-							<span class="carousel-control-next-icon" aria-hidden="true"></span>
-							<span class="visually-hidden">Next</span>
-						</button>
-					</div>
-
-				</div>
-			</div>
-
-			<div id="pulsantiera">
-
-				<a class="btn btn-primary" href="/mappa" role="button">Torna
-					alla mappa</a> <a class="btn btn-warning"
-					th:href="${'/modificapoi/' + poi.getId()}" href="/modificapoi"
-					role="button">Modifica il POI</a>
-				<button type="button" class="btn btn-danger" data-bs-toggle="modal"
-					data-bs-target="#confermaEliminazionePoi">Elimina POI</button>
-
-			</div>
+			<p>Grazie, il POI è stato aggiornato correttamente nel
+				database.</p>
 
 		</div>
 
@@ -157,51 +110,8 @@
 	</footer>
 
 
-	<script src="../js/bootstrap.bundle.min.js"></script>
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-	<script type="text/javascript" src="../js/script.js"></script>
-
-	<script th:inline="javascript">
-	function creaMappa() {
-		  const map = new google.maps.Map(document.getElementById("mappasingolopoi"), {
-		    zoom: 10,
-		    center: {lat: [(${poi.getLatitudine()})], lng: [(${poi.getLongitudine()})]}
-		  });
-		  
-		    var marker = new google.maps.Marker({
-		    	position: {lat: [(${poi.getLatitudine()})], lng: [(${poi.getLongitudine()})]},
-		    	map,
-		    	title: "[(${poi.getNome()})]"
-		    });
-
-		}
-	</script>
-
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBiO5RojhpsNaTgjVWOC_ht9GAjCCiBapY&callback=creaMappa&libraries=&v=weekly"
-		async></script>
-
-	<div class="modal" tabindex="-1" id="confermaEliminazionePoi">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Eliminazione POI</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<p>Si è sicuri di voler eliminare il POI?</p>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
-						data-bs-dismiss="modal">No</button>
-					<a class="btn btn-danger" th:href="${'/eliminapoi/' + poi.getId()}"
-						href="/eliminapoi" role="button">Sì</a>
-				</div>
-			</div>
-		</div>
-	</div>
+	<script src="js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="js/script.js"></script>
 
 </body>
 </html>

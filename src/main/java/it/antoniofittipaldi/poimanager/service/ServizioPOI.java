@@ -15,6 +15,13 @@ public class ServizioPOI {
 		return repositoryPOI.save(poi);
 	}
 
+	public POI aggiornaNelDb(POI poi, Long id) {
+		if (repositoryPOI.findById(id).isPresent())
+			return repositoryPOI.save(poi);
+		else
+			return null;
+	}
+
 	public Iterable<POI> leggiDb() {
 		return repositoryPOI.findAll();
 	}

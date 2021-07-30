@@ -1,8 +1,7 @@
 $(document).ready(
 	function(){
-		$("#vocemappa").hover(function() {
-  			$("#vocemappa").fadeOut("slow", function(){
-    			// alert("Il tag è stato nascosto correttamente.");
-  		});
-	});
+
+	var myCarousel = document.querySelector('#myCarousel');
+	var carousel = new bootstrap.Carousel(myCarousel);
+
 });
